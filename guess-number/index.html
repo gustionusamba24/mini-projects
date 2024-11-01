@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess The Number</title>
+    <!-- CSS external linking -->
+    <link rel="stylesheet" href="public/css/style.css" />
+    <!-- End of CSS external linking -->
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- End of Font -->
+  </head>
+  <body>
+    <header>
+      <h1 class="title">Guess The Number</h1>
+      <button class="btn btn-again">Play Again</button>
+    </header>
+    <main>
+      <section class="section-action">
+        <h2>Enter a number between 1 - 100</h2>
+        <div class="box-guess">
+          <input
+            type="number"
+            name="guess"
+            id="guess"
+            class="guess"
+            min="1"
+            max="100"
+          />
+          <button class="btn btn-guess">Guess</button>
+        </div>
+        <div class="number">?</div>
+      </section>
+      <section class="section-result">
+        <p class="message">Loading status...</p>
+        <div class="box-score">
+          <p class="label-score">Score:</p>
+          <p class="score">100</p>
+        </div>
+        <div class="box-highscore">
+          <p class="label-highscore">Highscore:</p>
+          <p class="highscore">0</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="public/js/main.js"></script>
+  </body>
+</html>
