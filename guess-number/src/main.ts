@@ -1,5 +1,5 @@
-let secretNumber: number = Math.trunc(Math.random() * 10) + 1;
-let score: number = 10;
+let secretNumber: number = Math.trunc(Math.random() * 100) + 1;
+let score: number = 100;
 let highscore: number = 0;
 let guessEl: Element | null = document.querySelector(".guess");
 let messageEl: Element | null = document.querySelector(".message");
@@ -44,8 +44,8 @@ document
 document
   .querySelector(".btn-again")
   ?.addEventListener("click", function (): void {
-    score = 10;
-    secretNumber = Math.trunc(Math.random() * 10) + 1;
+    score = 100;
+    secretNumber = Math.trunc(Math.random() * 100) + 1;
 
     messageEl!.textContent = "Loading status...";
     scoreEl!.textContent = score.toString();

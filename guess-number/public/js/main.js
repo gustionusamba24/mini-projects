@@ -1,7 +1,7 @@
 "use strict";
 var _a, _b;
-let secretNumber = Math.trunc(Math.random() * 10) + 1;
-let score = 10;
+let secretNumber = Math.trunc(Math.random() * 100) + 1;
+let score = 100;
 let highscore = 0;
 let guessEl = document.querySelector(".guess");
 let messageEl = document.querySelector(".message");
@@ -41,8 +41,8 @@ const displayMessage = function (message) {
 });
 (_b = document
     .querySelector(".btn-again")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", function () {
-    score = 10;
-    secretNumber = Math.trunc(Math.random() * 10) + 1;
+    score = 100;
+    secretNumber = Math.trunc(Math.random() * 100) + 1;
     messageEl.textContent = "Loading status...";
     scoreEl.textContent = score.toString();
     numberEl.textContent = "?";
