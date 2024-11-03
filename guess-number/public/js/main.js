@@ -3,44 +3,39 @@ var _a, _b;
 let secretNumber = Math.trunc(Math.random() * 10) + 1;
 let score = 10;
 let highscore = 0;
+let guessEl = document.querySelector(".guess");
+let messageEl = document.querySelector(".message");
+let numberEl = document.querySelector(".number");
+let scoreEl = document.querySelector(".score");
+let highscoreEl = document.querySelector(".highscore");
+const displayMessage = function (message) {
+    messageEl.textContent = message;
+};
 (_a = document
     .querySelector(".btn-guess")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () {
-    const guess = Number(document.querySelector(".guess").value);
+    const guess = Number(guessEl.value);
     if (!guess) {
-        document.querySelector(".message").textContent = "❌ No number";
+        displayMessage("❌ No number");
     }
     else if (guess === secretNumber) {
-        document.querySelector(".message").textContent = "🥳 Correct number";
-        document.querySelector(".number").textContent = secretNumber.toString();
+        displayMessage("🥳 Correct number");
+        numberEl.textContent = secretNumber.toString();
         // check whether you get a highscore or no
         if (score > highscore) {
             highscore = score;
-            document.querySelector(".highscore").textContent =
-                highscore.toString();
+            highscoreEl.textContent = highscore.toString();
         }
     }
-    else if (guess > secretNumber) {
+    else if (guess !== secretNumber) {
         if (score > 1) {
-            document.querySelector(".message").textContent = "⬆️ Too high";
+            let highOrLow = guess > secretNumber ? "⬆️ Too high" : "⬇️ Too low";
+            displayMessage(highOrLow);
             score--;
-            document.querySelector(".score").textContent = score.toString();
+            scoreEl.textContent = score.toString();
         }
         else {
-            document.querySelector(".message").textContent =
-                "😭 You lost the game!";
-            document.querySelector(".score").textContent = "0";
-        }
-    }
-    else if (guess < secretNumber) {
-        if (score > 1) {
-            document.querySelector(".message").textContent = "⬇️ Too low";
-            score--;
-            document.querySelector(".score").textContent = score.toString();
-        }
-        else {
-            document.querySelector(".message").textContent =
-                "😭 You lost the game!";
-            document.querySelector(".score").textContent = "0";
+            displayMessage("😭 You lost the game!");
+            scoreEl.textContent = "0";
         }
     }
 });
@@ -48,8 +43,8 @@ let highscore = 0;
     .querySelector(".btn-again")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", function () {
     score = 10;
     secretNumber = Math.trunc(Math.random() * 10) + 1;
-    document.querySelector(".message").textContent = "Loading status...";
-    document.querySelector(".score").textContent = score.toString();
-    document.querySelector(".number").textContent = "?";
-    document.querySelector(".guess").value = "";
+    messageEl.textContent = "Loading status...";
+    scoreEl.textContent = score.toString();
+    numberEl.textContent = "?";
+    guessEl.value = "";
 });
