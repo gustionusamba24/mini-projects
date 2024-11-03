@@ -1,5 +1,6 @@
 let secretNumber: number = Math.trunc(Math.random() * 10) + 1;
 let score: number = 10;
+let highscore: number = 0;
 
 document
   .querySelector(".btn-guess")
@@ -13,6 +14,13 @@ document
     } else if (guess === secretNumber) {
       document.querySelector(".message")!.textContent = "🥳 Correct number";
       document.querySelector(".number")!.textContent = secretNumber.toString();
+
+      // check whether you get a highscore or no
+      if (score > highscore) {
+        highscore = score;
+        document.querySelector(".highscore")!.textContent =
+          highscore.toString();
+      }
     } else if (guess > secretNumber) {
       if (score > 1) {
         document.querySelector(".message")!.textContent = "⬆️ Too high";
