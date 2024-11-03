@@ -1,8 +1,7 @@
 "use strict";
-var _a;
-const secretNumber = Math.trunc(Math.random() * 10) + 1;
+var _a, _b;
+let secretNumber = Math.trunc(Math.random() * 10) + 1;
 let score = 10;
-document.querySelector(".number").textContent = secretNumber.toString();
 (_a = document
     .querySelector(".btn-guess")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () {
     const guess = Number(document.querySelector(".guess").value);
@@ -11,6 +10,7 @@ document.querySelector(".number").textContent = secretNumber.toString();
     }
     else if (guess === secretNumber) {
         document.querySelector(".message").textContent = "🥳 Correct number";
+        document.querySelector(".number").textContent = secretNumber.toString();
     }
     else if (guess > secretNumber) {
         if (score > 1) {
@@ -36,4 +36,13 @@ document.querySelector(".number").textContent = secretNumber.toString();
             document.querySelector(".score").textContent = "0";
         }
     }
+});
+(_b = document
+    .querySelector(".btn-again")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", function () {
+    score = 10;
+    secretNumber = Math.trunc(Math.random() * 10) + 1;
+    document.querySelector(".message").textContent = "Loading status...";
+    document.querySelector(".score").textContent = score.toString();
+    document.querySelector(".number").textContent = "?";
+    document.querySelector(".guess").value = "";
 });

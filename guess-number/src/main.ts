@@ -1,6 +1,5 @@
-const secretNumber: number = Math.trunc(Math.random() * 10) + 1;
+let secretNumber: number = Math.trunc(Math.random() * 10) + 1;
 let score: number = 10;
-document.querySelector(".number")!.textContent = secretNumber.toString();
 
 document
   .querySelector(".btn-guess")
@@ -13,6 +12,7 @@ document
       document.querySelector(".message")!.textContent = "❌ No number";
     } else if (guess === secretNumber) {
       document.querySelector(".message")!.textContent = "🥳 Correct number";
+      document.querySelector(".number")!.textContent = secretNumber.toString();
     } else if (guess > secretNumber) {
       if (score > 1) {
         document.querySelector(".message")!.textContent = "⬆️ Too high";
@@ -34,4 +34,16 @@ document
         document.querySelector(".score")!.textContent = "0";
       }
     }
+  });
+
+document
+  .querySelector(".btn-again")
+  ?.addEventListener("click", function (): void {
+    score = 10;
+    secretNumber = Math.trunc(Math.random() * 10) + 1;
+
+    document.querySelector(".message")!.textContent = "Loading status...";
+    document.querySelector(".score")!.textContent = score.toString();
+    document.querySelector(".number")!.textContent = "?";
+    (document.querySelector(".guess") as HTMLInputElement).value = "";
   });
