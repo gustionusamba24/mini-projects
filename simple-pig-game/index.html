@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Pig Game</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="public/css/style.css" />
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- End of Font -->
+  </head>
+  <body>
+    <main>
+      <section class="player player--1 player--active">
+        <h2 class="name" id="name--1">Player 1</h2>
+        <p class="score" id="score--1">50</p>
+        <div class="box-current">
+          <p class="current-label">Current</p>
+          <p class="current-score" id="current-score--1">0</p>
+        </div>
+      </section>
+      <section class="player player--2">
+        <h2 class="name" id="name--2">Player 2</h2>
+        <p class="score" id="score--2">50</p>
+        <div class="box-current">
+          <p class="current-label">Current</p>
+          <p class="current-score" id="current-score--2">0</p>
+        </div>
+      </section>
+
+      <img src="images/dice-3.png" alt="Dice Roll" class="dice" />
+      <button class="btn btn-new">🆕 New game</button>
+      <button class="btn btn-roll">🎲 Roll dice</button>
+      <button class="btn btn-hold">✅ Hold score</button>
+    </main>
+    <script src="public/js/main.js"></script>
+  </body>
+</html>
