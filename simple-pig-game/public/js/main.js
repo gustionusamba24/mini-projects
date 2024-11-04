@@ -9,13 +9,23 @@ const diceEl = document.querySelector(".dice");
 const btnNew = document.querySelector(".btn-new");
 const btnRoll = document.querySelector(".btn-roll");
 const btnHold = document.querySelector(".btn-hold");
-score1El.textContent = "0";
-score2El.textContent = "0";
-diceEl.classList.add("hidden");
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 1;
-let playing = true;
+let scores, currentScore, activePlayer, playing;
+const init = function () {
+    scores = [0, 0];
+    currentScore = 0;
+    activePlayer = 1;
+    playing = true;
+    score1El.textContent = "0";
+    score2El.textContent = "0";
+    currentScore1El.textContent = "0";
+    currentScore2El.textContent = "0";
+    diceEl.classList.add("hidden");
+    player1El === null || player1El === void 0 ? void 0 : player1El.classList.remove("player--winner");
+    player2El === null || player2El === void 0 ? void 0 : player2El.classList.remove("player--winner");
+    player1El === null || player1El === void 0 ? void 0 : player1El.classList.add("player--active");
+    player2El === null || player2El === void 0 ? void 0 : player2El.classList.remove("player--active");
+};
+init();
 const switchPlayer = function () {
     document.getElementById(`current-score--${activePlayer}`).textContent = "0";
     currentScore = 0;
@@ -50,7 +60,7 @@ btnHold === null || btnHold === void 0 ? void 0 : btnHold.addEventListener("clic
         document.getElementById(`score--${activePlayer}`).textContent =
             scores[activePlayer - 1].toString();
         // 2. Check if player's score >= 100
-        if (scores[activePlayer - 1] >= 20) {
+        if (scores[activePlayer - 1] >= 100) {
             playing = false;
             diceEl === null || diceEl === void 0 ? void 0 : diceEl.classList.add("hidden");
             (_a = document
@@ -64,3 +74,4 @@ btnHold === null || btnHold === void 0 ? void 0 : btnHold.addEventListener("clic
         }
     }
 });
+btnNew === null || btnNew === void 0 ? void 0 : btnNew.addEventListener("click", init);
