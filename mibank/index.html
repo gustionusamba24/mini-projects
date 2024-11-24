@@ -19,15 +19,9 @@
   <body>
     <!-- Navigation -->
     <nav>
-      <div class="logo">
-        <img
-          src="images/logo.png"
-          alt="Mibank Logo"
-          class="logo__image"
-          width="55"
-        />
-        <h1 class="logo__title">Mibank</h1>
-      </div>
+      <h1>
+        <a href="#" class="logo__title">Mibank</a>
+      </h1>
       <form class="login">
         <input
           type="text"
@@ -123,16 +117,14 @@
         <p class="summary__label">In</p>
         <p class="summary__value summary__value--interest">$15,000</p>
         <button class="btn__sort">
-          <img src="images/down.svg" alt="Down Arrow" /> Sort
+          <ion-icon class="sort-icon" name="arrow-up-outline"></ion-icon> Sort
         </button>
       </div>
 
       <!-- Operation: Transfer -->
       <div class="operation operation--transfer">
         <div class="operation__icon">
-          <div class="operation__icon--box">
-            <img src="images/transfer.svg" alt="Transfer Icon" />
-          </div>
+          <ion-icon class="icon icon-transfer" name="send-outline"></ion-icon>
         </div>
         <div class="operation__process">
           <h2>Transfer money</h2>
@@ -164,9 +156,7 @@
       <!-- Operation: Loan -->
       <div class="operation operation--loan">
         <div class="operation__icon">
-          <div class="operation__icon--box">
-            <img src="images/loan.svg" alt="Loan Icon" />
-          </div>
+          <ion-icon class="icon icon-loan" name="trash-outline"></ion-icon>
         </div>
         <div class="operation__process">
           <h2>Request loan</h2>
@@ -188,9 +178,7 @@
       <!-- Operation: Close Account -->
       <div class="operation operation--close">
         <div class="operation__icon">
-          <div class="operation__icon--box">
-            <img src="images/close.svg" alt="Close Icon" />
-          </div>
+          <ion-icon class="icon icon-close" name="trash-outline"></ion-icon>
         </div>
         <div class="operation__process">
           <h2>Close account</h2>
@@ -225,6 +213,14 @@
       </p>
     </main>
 
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
     <script src="public/js/script.js"></script>
   </body>
 </html>
