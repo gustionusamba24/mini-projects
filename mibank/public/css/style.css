@@ -16,7 +16,11 @@ body {
   background-color: #f5f7fa;
 }
 
-/* Navbar Section */
+/* 
+************************
+NAV SECTION
+************************
+*/
 nav {
   height: 9.6rem;
   padding: 0 4.8rem;
@@ -29,7 +33,7 @@ nav {
 
 .logo__title {
   text-decoration: none;
-  font-size: 2.8rem;
+  font-size: 3.2rem;
   color: #343c6a;
   letter-spacing: 0.15rem;
 }
@@ -73,4 +77,130 @@ nav {
 .btn__login:hover {
   color: rgb(52, 60, 106);
   background-color: rgba(255, 255, 255);
+}
+
+/* 
+************************
+MAIN SECTION
+************************
+*/
+.app {
+  padding: 4.8rem;
+
+  display: grid;
+  row-gap: 1.6rem;
+  grid-template-columns: 2fr 1fr;
+  /* background-color: yellow; */
+}
+
+/* Welcome */
+.welcome__user {
+  font-size: 2.8rem;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.welcome__date {
+  font-size: 1.6rem;
+}
+
+/* Card */
+.card {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  width: 35rem;
+  height: 23.5rem;
+  padding: 2.4rem;
+  background: linear-gradient(
+    90deg,
+    rgba(45, 96, 255, 1) 0%,
+    rgba(83, 155, 255, 1) 100%
+  );
+  border-radius: 2.5rem;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance__label {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.balance__user {
+  font-size: 2rem;
+  color: #fff;
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
+.card-middle {
+  display: flex;
+  align-items: center;
+  gap: 6.4rem;
+  margin-top: 3rem;
+}
+
+.card__user--label,
+.card__valid--label {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.card__user,
+.card__valid {
+  margin-top: 0.4rem;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card-bottom {
+  margin-top: 4.5rem;
+}
+
+.card__number {
+  font-size: 2.2rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Movements */
+.movements {
+  grid-row: 2 / 5;
+}
+
+/* Summary */
+.summary {
+  grid-column: 1 / 2;
+  grid-row: 5 / 6;
+}
+
+/* Transfer */
+.operation--transfer {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+}
+
+/* Request loan */
+.operation--loan {
+  grid-column: 2 / 3;
+  grid-row: 4 / 5;
+}
+
+/* Close account */
+.operation--close {
+  grid-column: 2 / 3;
+  grid-row: 5 / 6;
+}
+
+/* Logout timer */
+.logout-timer {
+  grid-column: 2 / 3;
 }
