@@ -88,7 +88,7 @@ MAIN SECTION
   padding: 4.8rem;
 
   display: grid;
-  row-gap: 1.6rem;
+  row-gap: 2.4rem;
   column-gap: 2rem;
   grid-template-columns: 1.5fr 1fr;
   /* background-color: yellow; */
