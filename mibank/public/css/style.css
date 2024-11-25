@@ -365,6 +365,7 @@ h2 {
   color: #fff;
   letter-spacing: 1px;
   cursor: pointer;
+  font-family: inherit;
 }
 
 /* Transfer */
