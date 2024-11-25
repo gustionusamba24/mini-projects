@@ -91,7 +91,10 @@ MAIN SECTION
   row-gap: 2.4rem;
   column-gap: 2rem;
   grid-template-columns: 1.5fr 1fr;
-  /* background-color: yellow; */
+
+  /* Fade in / out animation */
+  /* opacity: 0; */
+  transition: all 1s;
 }
 
 /* Welcome */
