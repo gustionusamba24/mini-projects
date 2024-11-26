@@ -14,7 +14,7 @@ type Account = {
 };
 
 const account1: Account = {
-  owner: "Alucard Budi",
+  owner: "Alucard Budi Alamsyah",
   pin: 1234,
   movements: [
     1000, 2500.5, -3000.45, 15000, -10000.14, 50000, -25000.25, -5000.78, 20000,
@@ -47,7 +47,7 @@ const account1: Account = {
 };
 
 const account2: Account = {
-  owner: "Lunox Sanjaya",
+  owner: "Lunox Sanjaya Cantika",
   pin: 5678,
   movements: [5000, -2000, 10000, 20000, -7000, 5000, 9500, -10500, 5000],
   movementsDate: [
@@ -99,15 +99,27 @@ const labelSummaryInt = document.querySelector(".summary__value--interest");
 const labelTimer = document.querySelector(".timer");
 
 // Input Element
-const inputLoginUsername = document.querySelector(".login__input--username");
-const inputLoginPin = document.querySelector(".login__input--pin");
-const inputTransferRecipient = document.querySelector(
+const inputLoginUsername: HTMLInputElement = document.querySelector(
+  ".login__input--username"
+) as HTMLInputElement;
+const inputLoginPin: HTMLInputElement = document.querySelector(
+  ".login__input--pin"
+) as HTMLInputElement;
+const inputTransferRecipient: HTMLInputElement = document.querySelector(
   ".input__form--recipient"
-);
-const inputTransferAmount = document.querySelector(".input__form--amount");
-const inputLoanAmount = document.querySelector(".input__form--loan-amount");
-const inputCloseUsername = document.querySelector(".input__form--account");
-const inputClosePin = document.querySelector(".input__form--pin");
+) as HTMLInputElement;
+const inputTransferAmount: HTMLInputElement = document.querySelector(
+  ".input__form--amount"
+) as HTMLInputElement;
+const inputLoanAmount: HTMLInputElement = document.querySelector(
+  ".input__form--loan-amount"
+) as HTMLInputElement;
+const inputCloseUsername: HTMLInputElement = document.querySelector(
+  ".input__form--account"
+) as HTMLInputElement;
+const inputClosePin: HTMLInputElement = document.querySelector(
+  ".input__form--pin"
+) as HTMLInputElement;
 
 // Button Element
 const btnLogin = document.querySelector(".btn__login");
@@ -115,6 +127,9 @@ const btnSort = document.querySelector(".btn__sort");
 const btnTransfer = document.querySelector(".btn__transfer");
 const btnLoan = document.querySelector(".btn__loan");
 const btnClose = document.querySelector(".btn__close");
+
+// State variable to keep track of the current account
+let currentAcc: Account;
 
 // This function aims to create username for login purpose
 function createUsername(accs: Account[]): void {
@@ -140,7 +155,7 @@ function displayMovements(acc: Account): void {
       <tr class="movements__row--body">
         <td>${i + 1}</td>
         <td class="movements__type movements__type--transfer">
-          Transfer
+          ${acc.movementType[i]}
         </td>
         <td class="movements__date">19 Nov 2024</td>
         <td class="movements__value movements__value--${type}">
@@ -154,7 +169,7 @@ function displayMovements(acc: Account): void {
 }
 
 // This function aims to calculate the balance and display it
-function calcDisplayBalance(acc: Account): void {
+function calcDisplayCard(acc: Account): void {
   acc.balance = acc.movements.reduce(
     (acc: number, mov: number): number => acc + mov,
     0
@@ -189,11 +204,44 @@ function calcDisplaySummary(acc: Account): void {
 
 function updateUI(acc: Account): void {
   displayMovements(acc);
-  calcDisplayBalance(acc);
+  calcDisplayCard(acc);
   calcDisplaySummary(acc);
 }
 
 // Login Event
 btnLogin?.addEventListener("click", (e: Event): void => {
   e.preventDefault();
+
+  const foundAcc = accounts.find(
+    (acc: Account): boolean => acc.username === inputLoginUsername.value
+  );
+
+  if (!foundAcc) {
+    console.error("Account not found");
+    return;
+  }
+
+  if (foundAcc.pin === +inputLoginPin.value) {
+    currentAcc = foundAcc;
+    // Display UI and welcome UI
+
+    if (labelWelcome) {
+      labelWelcome.textContent = `Welcome back, ${
+        currentAcc.owner.split(" ")[0]
+      }`;
+    }
+
+    if (labelUser) {
+      labelUser.textContent = currentAcc.owner.split(" ").slice(0, 2).join(" ");
+    }
+
+    containerApp.style.opacity = "100";
+
+    // Clear input login fields
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+
+    // Update UI
+    updateUI(currentAcc);
+  }
 });

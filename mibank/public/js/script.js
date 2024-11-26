@@ -1,6 +1,6 @@
 "use strict";
 const account1 = {
-    owner: "Alucard Budi",
+    owner: "Alucard Budi Alamsyah",
     pin: 1234,
     movements: [
         1000, 2500.5, -3000.45, 15000, -10000.14, 50000, -25000.25, -5000.78, 20000,
@@ -32,7 +32,7 @@ const account1 = {
     locale: "id-IDR",
 };
 const account2 = {
-    owner: "Lunox Sanjaya",
+    owner: "Lunox Sanjaya Cantika",
     pin: 5678,
     movements: [5000, -2000, 10000, 20000, -7000, 5000, 9500, -10500, 5000],
     movementsDate: [
@@ -89,6 +89,8 @@ const btnSort = document.querySelector(".btn__sort");
 const btnTransfer = document.querySelector(".btn__transfer");
 const btnLoan = document.querySelector(".btn__loan");
 const btnClose = document.querySelector(".btn__close");
+// State variable to keep track of the current account
+let currentAcc;
 // This function aims to create username for login purpose
 function createUsername(accs) {
     accs.forEach((acc) => {
@@ -110,7 +112,7 @@ function displayMovements(acc) {
       <tr class="movements__row--body">
         <td>${i + 1}</td>
         <td class="movements__type movements__type--transfer">
-          Transfer
+          ${acc.movementType[i]}
         </td>
         <td class="movements__date">19 Nov 2024</td>
         <td class="movements__value movements__value--${type}">
@@ -122,7 +124,7 @@ function displayMovements(acc) {
     });
 }
 // This function aims to calculate the balance and display it
-function calcDisplayBalance(acc) {
+function calcDisplayCard(acc) {
     acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
     if (labelBalance)
         labelBalance.textContent = `${acc.balance.toFixed(2)}`;
@@ -149,10 +151,31 @@ function calcDisplaySummary(acc) {
 }
 function updateUI(acc) {
     displayMovements(acc);
-    calcDisplayBalance(acc);
+    calcDisplayCard(acc);
     calcDisplaySummary(acc);
 }
 // Login Event
 btnLogin === null || btnLogin === void 0 ? void 0 : btnLogin.addEventListener("click", (e) => {
     e.preventDefault();
+    const foundAcc = accounts.find((acc) => acc.username === inputLoginUsername.value);
+    if (!foundAcc) {
+        console.error("Account not found");
+        return;
+    }
+    if (foundAcc.pin === +inputLoginPin.value) {
+        currentAcc = foundAcc;
+        // Display UI and welcome UI
+        if (labelWelcome) {
+            labelWelcome.textContent = `Welcome back, ${currentAcc.owner.split(" ")[0]}`;
+        }
+        if (labelUser) {
+            labelUser.textContent = currentAcc.owner.split(" ").slice(0, 2).join(" ");
+        }
+        containerApp.style.opacity = "100";
+        // Clear input login fields
+        inputLoginUsername.value = inputLoginPin.value = "";
+        inputLoginPin.blur();
+        // Update UI
+        updateUI(currentAcc);
+    }
 });
