@@ -179,3 +179,22 @@ btnLogin === null || btnLogin === void 0 ? void 0 : btnLogin.addEventListener("c
         updateUI(currentAcc);
     }
 });
+btnTransfer === null || btnTransfer === void 0 ? void 0 : btnTransfer.addEventListener("click", (e) => {
+    e.preventDefault();
+    const amount = +inputTransferAmount.value;
+    const recipientAcc = accounts.find((acc) => acc.username === inputTransferRecipient.value);
+    inputTransferRecipient.value = inputTransferAmount.value = "";
+    if (amount > 0 &&
+        recipientAcc &&
+        currentAcc.balance >= amount &&
+        (recipientAcc === null || recipientAcc === void 0 ? void 0 : recipientAcc.username) !== currentAcc.username) {
+        // Transfer money
+        currentAcc.movements.push(-amount);
+        recipientAcc.movements.push(amount);
+        // Set the money movements type
+        currentAcc.movementType.push("Transfer");
+        recipientAcc.movementType.push("Transfer");
+        // Update UI
+        updateUI(currentAcc);
+    }
+});

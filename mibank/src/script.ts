@@ -245,3 +245,32 @@ btnLogin?.addEventListener("click", (e: Event): void => {
     updateUI(currentAcc);
   }
 });
+
+btnTransfer?.addEventListener("click", (e: Event): void => {
+  e.preventDefault();
+
+  const amount = +inputTransferAmount.value;
+  const recipientAcc = accounts.find(
+    (acc: Account): boolean => acc.username === inputTransferRecipient.value
+  );
+
+  inputTransferRecipient.value = inputTransferAmount.value = "";
+
+  if (
+    amount > 0 &&
+    recipientAcc &&
+    currentAcc.balance! >= amount &&
+    recipientAcc?.username !== currentAcc.username
+  ) {
+    // Transfer money
+    currentAcc.movements.push(-amount);
+    recipientAcc.movements.push(amount);
+
+    // Set the money movements type
+    currentAcc.movementType.push("Transfer");
+    recipientAcc.movementType.push("Transfer");
+
+    // Update UI
+    updateUI(currentAcc);
+  }
+});
