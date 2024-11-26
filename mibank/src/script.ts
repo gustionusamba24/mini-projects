@@ -128,7 +128,32 @@ function createUsername(accs: Account[]): void {
 }
 createUsername(accounts);
 
-// This function aims to display card information
+// This function aims to display the movements
+function displayMovements(acc: Account): void {
+  containerTBody.innerHTML = " ";
+
+  acc.movements.forEach((mov: number, i: number) => {
+    const type = mov > 0 ? "deposit" : "withdrawal";
+    const mathOperation = mov > 0 ? "+" : "-";
+
+    const output = `
+      <tr class="movements__row--body">
+        <td>${i + 1}</td>
+        <td class="movements__type movements__type--transfer">
+          Transfer
+        </td>
+        <td class="movements__date">19 Nov 2024</td>
+        <td class="movements__value movements__value--${type}">
+          ${mathOperation}$${Math.abs(mov).toFixed(2)}
+        </td>
+      </tr>
+    `;
+
+    containerTBody.insertAdjacentHTML("afterbegin", output);
+  });
+}
+
+// This function aims to calculate the balance and display it
 function calcDisplayBalance(acc: Account): void {
   acc.balance = acc.movements.reduce(
     (acc: number, mov: number): number => acc + mov,
@@ -137,4 +162,38 @@ function calcDisplayBalance(acc: Account): void {
 
   if (labelBalance) labelBalance.textContent = `${acc.balance.toFixed(2)}`;
 }
-calcDisplayBalance(account1);
+
+// This function aims to calculate the summary and display it
+function calcDisplaySummary(acc: Account): void {
+  const income: number = acc.movements
+    .filter((mov: number): boolean => mov > 0)
+    .reduce((acc: number, mov: number): number => acc + mov, 0);
+
+  if (labelSummaryIn) labelSummaryIn.textContent = `${income.toFixed(2)}`;
+
+  const outcome: number = acc.movements
+    .filter((mov: number): boolean => mov < 0)
+    .reduce((acc: number, mov: number): number => acc + mov, 0);
+
+  if (labelSummaryOut)
+    labelSummaryOut.textContent = `${Math.abs(outcome).toFixed(2)}`;
+
+  const interest: number = acc.movements
+    .filter((mov: number): boolean => mov > 0)
+    .map((deposit: number): number => (deposit * acc.interestRate) / 100)
+    .filter((int: number): boolean => int > 1)
+    .reduce((acc: number, int: number): number => acc + int, 0);
+
+  if (labelSummaryInt) labelSummaryInt.textContent = `${interest.toFixed(2)}`;
+}
+
+function updateUI(acc: Account): void {
+  displayMovements(acc);
+  calcDisplayBalance(acc);
+  calcDisplaySummary(acc);
+}
+
+// Login Event
+btnLogin?.addEventListener("click", (e: Event): void => {
+  e.preventDefault();
+});

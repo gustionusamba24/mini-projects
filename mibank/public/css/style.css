@@ -124,6 +124,7 @@ MAIN SECTION
     rgba(83, 155, 255, 1) 100%
   );
   border-radius: 2.5rem;
+  align-self: flex-end;
 }
 
 .card-top {
@@ -181,9 +182,8 @@ MAIN SECTION
   grid-row: 2 / 4;
   background-color: #fff;
   border-radius: 2.5rem;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
+  height: 40rem;
+  overflow: auto;
   box-shadow: 0 2px 10px -6px rgba(19, 52, 140, 0.5);
 }
 
