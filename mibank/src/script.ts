@@ -43,7 +43,7 @@ const account1: Account = {
     "Loan",
   ],
   currency: "IDR",
-  locale: "id-IDR",
+  locale: "id-ID",
 };
 
 const account2: Account = {
@@ -144,7 +144,35 @@ function createUsername(accs: Account[]): void {
 }
 createUsername(accounts);
 
-// This function aims to display the movements
+// This function aims to format the date
+function formatMovementDate(date: Date, locale: string): string {
+  const calcDaysPassed = (date1: any, date2: any): number =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+
+  if (daysPassed === 0) return "Today";
+  if (daysPassed === 1) return "Yesterday";
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(date);
+}
+
+// Format Currency
+function formatCur(value: number, locale: string, currency: string): string {
+  const displayDate = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+  }).format(value);
+
+  return displayDate;
+}
+
+// This function aims to display the mosements
 function displayMovements(acc: Account, sort: boolean = false): void {
   containerTBody.innerHTML = " ";
 
@@ -157,15 +185,19 @@ function displayMovements(acc: Account, sort: boolean = false): void {
     const type = mov > 0 ? "deposit" : "withdrawal";
     const mathOperation = mov > 0 ? "+" : "-";
 
+    const date = new Date(acc.movementsDate[i]);
+    const displayDate = formatMovementDate(date, acc.locale);
+    const formattedMov = formatCur(Math.abs(mov), acc.locale, acc.currency);
+
     const output = `
       <tr class="movements__row--body">
         <td>${i + 1}</td>
         <td class="movements__type movements__type--transfer">
           ${acc.movementType[i]}
         </td>
-        <td class="movements__date">19 Nov 2024</td>
+        <td class="movements__date">${displayDate}</td>
         <td class="movements__value movements__value--${type}">
-          ${mathOperation}$${Math.abs(mov).toFixed(2)}
+          ${mathOperation}${formattedMov}
         </td>
       </tr>
     `;
@@ -190,14 +222,23 @@ function calcDisplaySummary(acc: Account): void {
     .filter((mov: number): boolean => mov > 0)
     .reduce((acc: number, mov: number): number => acc + mov, 0);
 
-  if (labelSummaryIn) labelSummaryIn.textContent = `${income.toFixed(2)}`;
+  if (labelSummaryIn)
+    labelSummaryIn.textContent = formatCur(
+      income,
+      currentAcc.locale,
+      currentAcc.currency
+    );
 
   const outcome: number = acc.movements
     .filter((mov: number): boolean => mov < 0)
     .reduce((acc: number, mov: number): number => acc + mov, 0);
 
   if (labelSummaryOut)
-    labelSummaryOut.textContent = `${Math.abs(outcome).toFixed(2)}`;
+    labelSummaryOut.textContent = formatCur(
+      Math.abs(outcome),
+      currentAcc.locale,
+      currentAcc.currency
+    );
 
   const interest: number = acc.movements
     .filter((mov: number): boolean => mov > 0)
@@ -205,7 +246,12 @@ function calcDisplaySummary(acc: Account): void {
     .filter((int: number): boolean => int > 1)
     .reduce((acc: number, int: number): number => acc + int, 0);
 
-  if (labelSummaryInt) labelSummaryInt.textContent = `${interest.toFixed(2)}`;
+  if (labelSummaryInt)
+    labelSummaryInt.textContent = formatCur(
+      interest,
+      currentAcc.locale,
+      currentAcc.currency
+    );
 }
 
 function updateUI(acc: Account): void {
@@ -213,6 +259,11 @@ function updateUI(acc: Account): void {
   calcDisplayCard(acc);
   calcDisplaySummary(acc);
 }
+
+// Always logged in
+currentAcc = account1;
+updateUI(currentAcc);
+containerApp.style.opacity = "100";
 
 // Login Event
 btnLogin?.addEventListener("click", (e: Event): void => {
@@ -242,6 +293,19 @@ btnLogin?.addEventListener("click", (e: Event): void => {
     }
 
     containerApp.style.opacity = "100";
+
+    // Current date and time
+    const now = new Date();
+
+    if (labelDate)
+      labelDate.textContent = new Intl.DateTimeFormat(currentAcc.locale, {
+        weekday: "short",
+        hour: "numeric",
+        minute: "numeric",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }).format(now);
 
     // Clear input login fields
     inputLoginUsername.value = inputLoginPin.value = "";

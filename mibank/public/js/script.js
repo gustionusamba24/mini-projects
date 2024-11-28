@@ -29,7 +29,7 @@ const account1 = {
         "Loan",
     ],
     currency: "IDR",
-    locale: "id-IDR",
+    locale: "id-ID",
 };
 const account2 = {
     owner: "Lunox Sanjaya Cantika",
@@ -103,7 +103,31 @@ function createUsername(accs) {
     });
 }
 createUsername(accounts);
-// This function aims to display the movements
+// This function aims to format the date
+function formatMovementDate(date, locale) {
+    const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+    const daysPassed = calcDaysPassed(new Date(), date);
+    if (daysPassed === 0)
+        return "Today";
+    if (daysPassed === 1)
+        return "Yesterday";
+    if (daysPassed <= 7)
+        return `${daysPassed} days ago`;
+    return new Intl.DateTimeFormat(locale, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    }).format(date);
+}
+// Format Currency
+function formatCur(value, locale, currency) {
+    const displayDate = new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: currency,
+    }).format(value);
+    return displayDate;
+}
+// This function aims to display the mosements
 function displayMovements(acc, sort = false) {
     containerTBody.innerHTML = " ";
     // Use slice to create shallow copy of the array
@@ -113,15 +137,18 @@ function displayMovements(acc, sort = false) {
     movs.forEach((mov, i) => {
         const type = mov > 0 ? "deposit" : "withdrawal";
         const mathOperation = mov > 0 ? "+" : "-";
+        const date = new Date(acc.movementsDate[i]);
+        const displayDate = formatMovementDate(date, acc.locale);
+        const formattedMov = formatCur(Math.abs(mov), acc.locale, acc.currency);
         const output = `
       <tr class="movements__row--body">
         <td>${i + 1}</td>
         <td class="movements__type movements__type--transfer">
           ${acc.movementType[i]}
         </td>
-        <td class="movements__date">19 Nov 2024</td>
+        <td class="movements__date">${displayDate}</td>
         <td class="movements__value movements__value--${type}">
-          ${mathOperation}$${Math.abs(mov).toFixed(2)}
+          ${mathOperation}${formattedMov}
         </td>
       </tr>
     `;
@@ -140,25 +167,29 @@ function calcDisplaySummary(acc) {
         .filter((mov) => mov > 0)
         .reduce((acc, mov) => acc + mov, 0);
     if (labelSummaryIn)
-        labelSummaryIn.textContent = `${income.toFixed(2)}`;
+        labelSummaryIn.textContent = formatCur(income, currentAcc.locale, currentAcc.currency);
     const outcome = acc.movements
         .filter((mov) => mov < 0)
         .reduce((acc, mov) => acc + mov, 0);
     if (labelSummaryOut)
-        labelSummaryOut.textContent = `${Math.abs(outcome).toFixed(2)}`;
+        labelSummaryOut.textContent = formatCur(Math.abs(outcome), currentAcc.locale, currentAcc.currency);
     const interest = acc.movements
         .filter((mov) => mov > 0)
         .map((deposit) => (deposit * acc.interestRate) / 100)
         .filter((int) => int > 1)
         .reduce((acc, int) => acc + int, 0);
     if (labelSummaryInt)
-        labelSummaryInt.textContent = `${interest.toFixed(2)}`;
+        labelSummaryInt.textContent = formatCur(interest, currentAcc.locale, currentAcc.currency);
 }
 function updateUI(acc) {
     displayMovements(acc);
     calcDisplayCard(acc);
     calcDisplaySummary(acc);
 }
+// Always logged in
+currentAcc = account1;
+updateUI(currentAcc);
+containerApp.style.opacity = "100";
 // Login Event
 btnLogin === null || btnLogin === void 0 ? void 0 : btnLogin.addEventListener("click", (e) => {
     e.preventDefault();
@@ -177,6 +208,17 @@ btnLogin === null || btnLogin === void 0 ? void 0 : btnLogin.addEventListener("c
             labelUser.textContent = currentAcc.owner.split(" ").slice(0, 2).join(" ");
         }
         containerApp.style.opacity = "100";
+        // Current date and time
+        const now = new Date();
+        if (labelDate)
+            labelDate.textContent = new Intl.DateTimeFormat(currentAcc.locale, {
+                weekday: "short",
+                hour: "numeric",
+                minute: "numeric",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+            }).format(now);
         // Clear input login fields
         inputLoginUsername.value = inputLoginPin.value = "";
         inputLoginPin.blur();
