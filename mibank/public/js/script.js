@@ -12,9 +12,9 @@ const account1 = {
         "2024-09-12T05:11:24.000Z",
         "2024-09-13T10:44:50.000Z",
         "2024-09-15T13:23:04.000Z",
-        "2024-10-10T16:00:30.000Z",
-        "2024-10-13T07:50:14.000Z",
-        "2024-09-15T14:00:13.000Z",
+        "2024-11-22T16:00:30.000Z",
+        "2024-11-25T07:50:14.000Z",
+        "2024-11-27T14:00:13.000Z",
     ],
     interestRate: 1.2,
     movementType: [
@@ -92,6 +92,7 @@ const btnClose = document.querySelector(".btn__close");
 // State variable to keep track of the current state
 let currentAcc;
 let sorted = false;
+let timer;
 // This function aims to create username for login purpose
 function createUsername(accs) {
     accs.forEach((acc) => {
@@ -113,19 +114,41 @@ function formatMovementDate(date, locale) {
         return "Yesterday";
     if (daysPassed <= 7)
         return `${daysPassed} days ago`;
-    return new Intl.DateTimeFormat(locale, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    }).format(date);
+    else {
+        return new Intl.DateTimeFormat(locale).format(date);
+    }
 }
 // Format Currency
 function formatCur(value, locale, currency) {
-    const displayDate = new Intl.NumberFormat(locale, {
+    return new Intl.NumberFormat(locale, {
         style: "currency",
         currency: currency,
     }).format(value);
-    return displayDate;
+}
+// This function aims to start the logout timer
+function startLogoutTimer() {
+    const tick = () => {
+        const min = String(Math.trunc(time / 60)).padStart(2, "0");
+        const sec = String(time % 60).padStart(2, "0");
+        // In each call, print the remaining time to UI
+        if (labelTimer)
+            labelTimer.textContent = `${min}:${sec}`;
+        // When 0 second, stop timer and log ut user
+        if (time === 0) {
+            clearInterval(timer);
+            if (labelWelcome)
+                labelWelcome.textContent = "Log in to get started";
+            containerApp.style.opacity = "0";
+        }
+        // Decrease it
+        time--;
+    };
+    // Set the time
+    let time = 100;
+    // Call the timer every second
+    tick(); // Immediately call the function
+    timer = setInterval(tick, 1000);
+    return timer;
 }
 // This function aims to display the mosements
 function displayMovements(acc, sort = false) {
@@ -186,12 +209,8 @@ function updateUI(acc) {
     calcDisplayCard(acc);
     calcDisplaySummary(acc);
 }
-// Always logged in
-currentAcc = account1;
-updateUI(currentAcc);
-containerApp.style.opacity = "100";
 // Login Event
-btnLogin === null || btnLogin === void 0 ? void 0 : btnLogin.addEventListener("click", (e) => {
+btnLogin?.addEventListener("click", (e) => {
     e.preventDefault();
     const foundAcc = accounts.find((acc) => acc.username === inputLoginUsername.value);
     if (!foundAcc) {
@@ -222,11 +241,15 @@ btnLogin === null || btnLogin === void 0 ? void 0 : btnLogin.addEventListener("c
         // Clear input login fields
         inputLoginUsername.value = inputLoginPin.value = "";
         inputLoginPin.blur();
+        // Set the log out timer
+        if (timer)
+            clearInterval(timer);
+        timer = startLogoutTimer();
         // Update UI
         updateUI(currentAcc);
     }
 });
-btnTransfer === null || btnTransfer === void 0 ? void 0 : btnTransfer.addEventListener("click", (e) => {
+btnTransfer?.addEventListener("click", (e) => {
     e.preventDefault();
     const amount = +inputTransferAmount.value;
     const recipientAcc = accounts.find((acc) => acc.username === inputTransferRecipient.value);
@@ -234,18 +257,24 @@ btnTransfer === null || btnTransfer === void 0 ? void 0 : btnTransfer.addEventLi
     if (amount > 0 &&
         recipientAcc &&
         currentAcc.balance >= amount &&
-        (recipientAcc === null || recipientAcc === void 0 ? void 0 : recipientAcc.username) !== currentAcc.username) {
+        recipientAcc?.username !== currentAcc.username) {
         // Transfer money
         currentAcc.movements.push(-amount);
         recipientAcc.movements.push(amount);
         // Set the money movements type
         currentAcc.movementType.push("Transfer");
         recipientAcc.movementType.push("Transfer");
+        // Add transfer date
+        currentAcc.movementsDate.push(new Date().toISOString());
+        recipientAcc.movementsDate.push(new Date().toISOString());
         // Update UI
         updateUI(currentAcc);
+        // Reset the timer
+        clearInterval(timer);
+        timer = startLogoutTimer();
     }
 });
-btnLoan === null || btnLoan === void 0 ? void 0 : btnLoan.addEventListener("click", (e) => {
+btnLoan?.addEventListener("click", (e) => {
     e.preventDefault();
     const amount = Math.floor(+inputLoanAmount.value);
     if (amount > 0 &&
@@ -255,13 +284,18 @@ btnLoan === null || btnLoan === void 0 ? void 0 : btnLoan.addEventListener("clic
             currentAcc.movements.push(amount);
             // Set the money movement's type
             currentAcc.movementType.push("Loan");
+            // Add loan date
+            currentAcc.movementsDate.push(new Date().toISOString());
             // Update UI
             updateUI(currentAcc);
         }, 2000);
     }
     inputLoanAmount.value = "";
+    // Reset the timer
+    clearInterval(timer);
+    timer = startLogoutTimer();
 });
-btnClose === null || btnClose === void 0 ? void 0 : btnClose.addEventListener("click", (e) => {
+btnClose?.addEventListener("click", (e) => {
     e.preventDefault();
     const username = inputCloseUsername.value;
     const pin = +inputClosePin.value;
@@ -275,7 +309,7 @@ btnClose === null || btnClose === void 0 ? void 0 : btnClose.addEventListener("c
     }
     inputCloseUsername.value = inputClosePin.value = " ";
 });
-btnSort === null || btnSort === void 0 ? void 0 : btnSort.addEventListener("click", (e) => {
+btnSort?.addEventListener("click", (e) => {
     e.preventDefault();
     displayMovements(currentAcc, !sorted);
     sorted = !sorted;

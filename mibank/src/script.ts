@@ -26,9 +26,9 @@ const account1: Account = {
     "2024-09-12T05:11:24.000Z",
     "2024-09-13T10:44:50.000Z",
     "2024-09-15T13:23:04.000Z",
-    "2024-10-10T16:00:30.000Z",
-    "2024-10-13T07:50:14.000Z",
-    "2024-09-15T14:00:13.000Z",
+    "2024-11-22T16:00:30.000Z",
+    "2024-11-25T07:50:14.000Z",
+    "2024-11-27T14:00:13.000Z",
   ],
   interestRate: 1.2,
   movementType: [
@@ -131,6 +131,7 @@ const btnClose = document.querySelector(".btn__close");
 // State variable to keep track of the current state
 let currentAcc: Account;
 let sorted: boolean = false;
+let timer: number;
 
 // This function aims to create username for login purpose
 function createUsername(accs: Account[]): void {
@@ -154,22 +155,46 @@ function formatMovementDate(date: Date, locale: string): string {
   if (daysPassed === 0) return "Today";
   if (daysPassed === 1) return "Yesterday";
   if (daysPassed <= 7) return `${daysPassed} days ago`;
-
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(date);
+  else {
+    return new Intl.DateTimeFormat(locale).format(date);
+  }
 }
 
 // Format Currency
 function formatCur(value: number, locale: string, currency: string): string {
-  const displayDate = new Intl.NumberFormat(locale, {
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: currency,
   }).format(value);
+}
 
-  return displayDate;
+// This function aims to start the logout timer
+function startLogoutTimer() {
+  const tick = (): void => {
+    const min = String(Math.trunc(time / 60)).padStart(2, "0");
+    const sec = String(time % 60).padStart(2, "0");
+
+    // In each call, print the remaining time to UI
+    if (labelTimer) labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 second, stop timer and log ut user
+    if (time === 0) {
+      clearInterval(timer);
+      if (labelWelcome) labelWelcome.textContent = "Log in to get started";
+      containerApp.style.opacity = "0";
+    }
+
+    // Decrease it
+    time--;
+  };
+  // Set the time
+  let time = 100;
+
+  // Call the timer every second
+  tick(); // Immediately call the function
+  timer = setInterval(tick, 1000);
+
+  return timer;
 }
 
 // This function aims to display the mosements
@@ -260,11 +285,6 @@ function updateUI(acc: Account): void {
   calcDisplaySummary(acc);
 }
 
-// Always logged in
-currentAcc = account1;
-updateUI(currentAcc);
-containerApp.style.opacity = "100";
-
 // Login Event
 btnLogin?.addEventListener("click", (e: Event): void => {
   e.preventDefault();
@@ -311,6 +331,10 @@ btnLogin?.addEventListener("click", (e: Event): void => {
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur();
 
+    // Set the log out timer
+    if (timer) clearInterval(timer);
+    timer = startLogoutTimer();
+
     // Update UI
     updateUI(currentAcc);
   }
@@ -340,8 +364,16 @@ btnTransfer?.addEventListener("click", (e: Event): void => {
     currentAcc.movementType.push("Transfer");
     recipientAcc.movementType.push("Transfer");
 
+    // Add transfer date
+    currentAcc.movementsDate.push(new Date().toISOString());
+    recipientAcc.movementsDate.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAcc);
+
+    // Reset the timer
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
 });
 
@@ -361,12 +393,19 @@ btnLoan?.addEventListener("click", (e: Event): void => {
       // Set the money movement's type
       currentAcc.movementType.push("Loan");
 
+      // Add loan date
+      currentAcc.movementsDate.push(new Date().toISOString());
+
       // Update UI
       updateUI(currentAcc);
     }, 2000);
   }
 
   inputLoanAmount.value = "";
+
+  // Reset the timer
+  clearInterval(timer);
+  timer = startLogoutTimer();
 });
 
 btnClose?.addEventListener("click", (e: Event): void => {
