@@ -128,8 +128,9 @@ const btnTransfer = document.querySelector(".btn__transfer");
 const btnLoan = document.querySelector(".btn__loan");
 const btnClose = document.querySelector(".btn__close");
 
-// State variable to keep track of the current account
+// State variable to keep track of the current state
 let currentAcc: Account;
+let sorted: boolean = false;
 
 // This function aims to create username for login purpose
 function createUsername(accs: Account[]): void {
@@ -144,10 +145,15 @@ function createUsername(accs: Account[]): void {
 createUsername(accounts);
 
 // This function aims to display the movements
-function displayMovements(acc: Account): void {
+function displayMovements(acc: Account, sort: boolean = false): void {
   containerTBody.innerHTML = " ";
 
-  acc.movements.forEach((mov: number, i: number) => {
+  // Use slice to create shallow copy of the array
+  const movs = sort
+    ? acc.movements.slice().sort((a: number, b: number): number => a - b)
+    : acc.movements;
+
+  movs.forEach((mov: number, i: number): void => {
     const type = mov > 0 ? "deposit" : "withdrawal";
     const mathOperation = mov > 0 ? "+" : "-";
 
@@ -297,4 +303,33 @@ btnLoan?.addEventListener("click", (e: Event): void => {
   }
 
   inputLoanAmount.value = "";
+});
+
+btnClose?.addEventListener("click", (e: Event): void => {
+  e.preventDefault();
+
+  const username = inputCloseUsername.value;
+  const pin = +inputClosePin.value;
+
+  if (username === currentAcc.username && pin === currentAcc.pin) {
+    const index = accounts.findIndex(
+      (acc: Account): boolean => acc.username === currentAcc.username
+    );
+    console.log(index);
+
+    // Delete the account
+    accounts.splice(index, 1);
+
+    // Hide the UI
+    containerApp.style.opacity = "0";
+  }
+
+  inputCloseUsername.value = inputClosePin.value = " ";
+});
+
+btnSort?.addEventListener("click", (e: Event): void => {
+  e.preventDefault();
+
+  displayMovements(currentAcc, !sorted);
+  sorted = !sorted;
 });

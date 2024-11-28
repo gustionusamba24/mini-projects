@@ -89,8 +89,9 @@ const btnSort = document.querySelector(".btn__sort");
 const btnTransfer = document.querySelector(".btn__transfer");
 const btnLoan = document.querySelector(".btn__loan");
 const btnClose = document.querySelector(".btn__close");
-// State variable to keep track of the current account
+// State variable to keep track of the current state
 let currentAcc;
+let sorted = false;
 // This function aims to create username for login purpose
 function createUsername(accs) {
     accs.forEach((acc) => {
@@ -103,9 +104,13 @@ function createUsername(accs) {
 }
 createUsername(accounts);
 // This function aims to display the movements
-function displayMovements(acc) {
+function displayMovements(acc, sort = false) {
     containerTBody.innerHTML = " ";
-    acc.movements.forEach((mov, i) => {
+    // Use slice to create shallow copy of the array
+    const movs = sort
+        ? acc.movements.slice().sort((a, b) => a - b)
+        : acc.movements;
+    movs.forEach((mov, i) => {
         const type = mov > 0 ? "deposit" : "withdrawal";
         const mathOperation = mov > 0 ? "+" : "-";
         const output = `
@@ -213,4 +218,23 @@ btnLoan === null || btnLoan === void 0 ? void 0 : btnLoan.addEventListener("clic
         }, 2000);
     }
     inputLoanAmount.value = "";
+});
+btnClose === null || btnClose === void 0 ? void 0 : btnClose.addEventListener("click", (e) => {
+    e.preventDefault();
+    const username = inputCloseUsername.value;
+    const pin = +inputClosePin.value;
+    if (username === currentAcc.username && pin === currentAcc.pin) {
+        const index = accounts.findIndex((acc) => acc.username === currentAcc.username);
+        console.log(index);
+        // Delete the account
+        accounts.splice(index, 1);
+        // Hide the UI
+        containerApp.style.opacity = "0";
+    }
+    inputCloseUsername.value = inputClosePin.value = " ";
+});
+btnSort === null || btnSort === void 0 ? void 0 : btnSort.addEventListener("click", (e) => {
+    e.preventDefault();
+    displayMovements(currentAcc, !sorted);
+    sorted = !sorted;
 });
