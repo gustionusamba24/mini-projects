@@ -274,3 +274,27 @@ btnTransfer?.addEventListener("click", (e: Event): void => {
     updateUI(currentAcc);
   }
 });
+
+btnLoan?.addEventListener("click", (e: Event): void => {
+  e.preventDefault();
+
+  const amount = Math.floor(+inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAcc.movements.some((mov: number): boolean => mov >= amount * 0.1)
+  ) {
+    setTimeout((): void => {
+      // Add loan money to the movements
+      currentAcc.movements.push(amount);
+
+      // Set the money movement's type
+      currentAcc.movementType.push("Loan");
+
+      // Update UI
+      updateUI(currentAcc);
+    }, 2000);
+  }
+
+  inputLoanAmount.value = "";
+});
