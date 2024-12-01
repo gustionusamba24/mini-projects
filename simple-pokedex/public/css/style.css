@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Parkinsans", sans-serif;
+  background-color: #1b1833;
+}
+
+main {
+  border: 1px solid green;
+  padding: 2.5rem 2rem;
+  max-width: 130rem;
+  margin: auto;
+}
+
+h1 {
+  color: #ab4459;
+  font-size: 3.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: #441752;
+  width: minmax(20rem, auto);
+  border-radius: 1rem;
+  padding: 1rem;
+  border-top: 0.5px solid #f29f58;
+  border-bottom: 0.5px solid #f29f58;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.2s ease-in-out all;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card__id {
+  width: 4rem;
+  color: #333;
+  background-color: #f29f58;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 0.3rem;
+  position: absolute;
+  border-radius: 0 0 1rem 0;
+  top: 0;
+  left: 0;
+}
+
+.card__image {
+  width: 15rem;
+  display: block;
+  margin: 0 auto;
+margin-bottom: 2rem;
+}
+
+.card__name {
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.card__type {
+  color: #f29f58;
+  font-size: 1.6rem;
+}
