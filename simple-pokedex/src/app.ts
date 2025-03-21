@@ -8,7 +8,7 @@ interface IPokemon {
   type: string;
 }
 
-const fetchData = (): void => {
+const fetchData = () => {
   for (let i = 1; i <= pokemon; i++) {
     getPokemon(i);
   }
@@ -16,7 +16,7 @@ const fetchData = (): void => {
 
 // Fetch data from Pokemon API
 const getPokemon = async (id: number): Promise<void> => {
-  const res: Response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
   const pokemonData = await res.json();
   const pokemonType = pokemonData.types
     .map((pData: any) => pData.type.name)

@@ -98,9 +98,9 @@ function createUsername(accs) {
     accs.forEach((acc) => {
         acc.username = acc.owner
             .toLowerCase()
-            .split(" ")
-            .map((name) => name[0])
-            .join("");
+            .split(" ") // ["Jonas", "Blue"]
+            .map((name) => name[0]) // ["j", "b"]
+            .join(""); // jb
     });
 }
 createUsername(accounts);
@@ -144,7 +144,7 @@ function startLogoutTimer() {
         time--;
     };
     // Set the time
-    let time = 100;
+    let time = 3600;
     // Call the timer every second
     tick(); // Immediately call the function
     timer = setInterval(tick, 1000);

@@ -138,9 +138,9 @@ function createUsername(accs: Account[]): void {
   accs.forEach((acc: Account) => {
     acc.username = acc.owner
       .toLowerCase()
-      .split(" ")
-      .map((name: string) => name[0])
-      .join("");
+      .split(" ") // ["Jonas", "Blue"]
+      .map((name) => name[0]) // ["j", "b"]
+      .join(""); // jb
   });
 }
 createUsername(accounts);
@@ -188,7 +188,7 @@ function startLogoutTimer() {
     time--;
   };
   // Set the time
-  let time = 100;
+  let time = 3600;
 
   // Call the timer every second
   tick(); // Immediately call the function
@@ -290,7 +290,7 @@ btnLogin?.addEventListener("click", (e: Event): void => {
   e.preventDefault();
 
   const foundAcc = accounts.find(
-    (acc: Account): boolean => acc.username === inputLoginUsername.value
+    (acc: Account) => acc.username === inputLoginUsername.value
   );
 
   if (!foundAcc) {
