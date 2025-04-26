@@ -16,8 +16,8 @@ const fetchData = () => {
 
 // Fetch data from Pokemon API
 const getPokemon = async (id: number): Promise<void> => {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-  const pokemonData = await res.json();
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  const pokemonData = await response.json();
   const pokemonType = pokemonData.types
     .map((pData: any) => pData.type.name)
     .join(", ");
