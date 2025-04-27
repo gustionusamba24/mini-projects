@@ -5,12 +5,14 @@ type PackingListProps = {
   items: ItemType[];
   onRemoveItem: (id: number) => void;
   onToggleItem: (id: number) => void;
+  onClearItemList: () => void;
 };
 
 export const PackingList = ({
   items,
   onRemoveItem,
   onToggleItem,
+  onClearItemList,
 }: PackingListProps) => {
   return (
     <main className="flex flex-col items-center justify-between gap-8 bg-black px-12 py-8">
@@ -33,8 +35,9 @@ export const PackingList = ({
           <option value="packed">Sort by packed status</option>
         </select>
         <button
-          type="button"
           className="rounded-sm bg-light-orange px-6 py-2 text-[16px] font-medium uppercase text-white focus:outline-none focus:ring-4 focus:ring-dark-orange"
+          type="button"
+          onClick={onClearItemList}
         >
           Clear List
         </button>

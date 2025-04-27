@@ -48,7 +48,7 @@ export const Form = ({ onAddItem }: FormProps) => {
           ))}
         </select>
         <input
-          className="rounded border border-dark-orange bg-gray px-6 py-2 text-[18px] font-medium text-white outline-none placeholder:text-white focus:border-light-orange focus:ring-2 focus:ring-light-orange"
+          className="rounded border border-dark-orange bg-gray px-6 py-2 text-[18px] font-medium text-white outline-none placeholder:text-white/60 focus:border-light-orange focus:ring-2 focus:ring-light-orange"
           type="text"
           placeholder="Item..."
           value={description}

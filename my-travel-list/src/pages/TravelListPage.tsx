@@ -24,6 +24,12 @@ export const TravelListPage = () => {
     );
   };
 
+  const handleClearItemList = () => {
+    const confirmed = window.confirm("Are you sure want to delete all items?");
+
+    if (confirmed) setItems([]);
+  };
+
   return (
     <div className="grid h-screen grid-rows-custom-parent">
       <Logo />
@@ -32,6 +38,7 @@ export const TravelListPage = () => {
         items={items}
         onRemoveItem={handleRemoveItem}
         onToggleItem={handleToggleItem}
+        onClearItemList={handleClearItemList}
       />
       <Statistics items={items} />
     </div>
