@@ -33,7 +33,7 @@ export const TravelListPage = () => {
         onRemoveItem={handleRemoveItem}
         onToggleItem={handleToggleItem}
       />
-      <Statistics />
+      <Statistics items={items} />
     </div>
   );
 };

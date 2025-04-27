@@ -1,9 +1,29 @@
-export const Statistics = () => {
+import { ItemType } from "../schema/ItemType.ts";
+import { StatisticsMessage } from "./StatisticsMessage.tsx";
+
+type StatisticsProps = {
+  items: ItemType[];
+};
+
+export const Statistics = ({ items }: StatisticsProps) => {
+  if (!items.length)
+    return (
+      <StatisticsMessage>
+        Start adding the items to your packing list
+      </StatisticsMessage>
+    );
+
+  let numItems = items.length;
+  let numPacked = items.filter((item) => item.packed).length;
+  let percentage = Math.round((numPacked / numItems) * 100);
+  let message =
+    percentage === 100
+      ? "You already got everything packed! Ready to go"
+      : `You have ${Number(numItems)} items on your list and you already packed ${Number(numPacked)} (${Number(percentage)}%)`;
+
   return (
-    <footer className="flex flex-col items-center justify-center bg-light-orange py-4">
-      <p className="text-xl font-semibold text-gray">
-        Start adding some items to you packing list!
-      </p>
-    </footer>
+    <>
+      <StatisticsMessage>{message}</StatisticsMessage>
+    </>
   );
 };
