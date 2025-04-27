@@ -13,6 +13,9 @@ export default {
       gridTemplateRows: {
         "custom-parent": "auto auto 1fr auto",
       },
+      gridTemplateColumns: {
+        "custom-packing-list": "repeat(auto-fit, minmax(280px, 1fr))",
+      },
     },
   },
   plugins: [],
