@@ -9,7 +9,7 @@ export const Form = ({ onAddItem }: FormProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [description, setDescription] = useState<string>("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
     if (!description) return;

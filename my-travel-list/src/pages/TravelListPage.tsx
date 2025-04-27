@@ -16,11 +16,23 @@ export const TravelListPage = () => {
     setItems((items) => items.filter((item) => item.id !== id));
   };
 
+  const handleToggleItem = (id: number) => {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item,
+      ),
+    );
+  };
+
   return (
     <div className="grid h-screen grid-rows-custom-parent">
       <Logo />
       <Form onAddItem={handleAddItem} />
-      <PackingList items={items} onRemoveItem={handleRemoveItem} />
+      <PackingList
+        items={items}
+        onRemoveItem={handleRemoveItem}
+        onToggleItem={handleToggleItem}
+      />
       <Statistics />
     </div>
   );
