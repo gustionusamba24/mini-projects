@@ -1,4 +1,4 @@
-type Item = {
+export type ItemType = {
   description: string;
   quantity: number;
   packed: boolean;

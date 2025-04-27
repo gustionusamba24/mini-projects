@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { ItemType } from "../schema/ItemType.ts";
 
 type FormProps = {
-  onAddItem: (item: Item) => void;
+  onAddItem: (item: ItemType) => void;
 };
 
 export const Form = ({ onAddItem }: FormProps) => {
@@ -13,7 +14,7 @@ export const Form = ({ onAddItem }: FormProps) => {
 
     if (!description) return;
 
-    const newItem: Item = {
+    const newItem: ItemType = {
       description,
       quantity,
       packed: false,
