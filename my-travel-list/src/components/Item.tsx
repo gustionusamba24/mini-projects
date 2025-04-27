@@ -20,7 +20,6 @@ export const Item = ({
   return (
     <div
       className={`flex w-[280px] items-center justify-between rounded-md border-2 border-dark-orange p-3 ${packed ? "bg-dark-orange line-through decoration-white decoration-2" : "bg-gray"}`}
-      key={id}
     >
       <p className="w-4/6 text-lg font-medium text-white">
         {quantity} {description}

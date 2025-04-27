@@ -44,6 +44,7 @@ export const PackingList = ({
             packed={item.packed}
             onRemoveItem={onRemoveItem}
             onToggleItem={onToggleItem}
+            key={item.id}
           />
         ))}
       </div>
