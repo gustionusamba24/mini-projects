@@ -1,4 +1,4 @@
-import { TravelListPage } from "./Pages/TravelListPage.tsx";
+import { TravelListPage } from "./pages/TravelListPage.tsx";
 
 export const App = () => {
   return (
