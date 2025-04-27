@@ -12,11 +12,15 @@ export const TravelListPage = () => {
     setItems((items) => [...items, item]);
   };
 
+  const handleRemoveItem = (id: number) => {
+    setItems((items) => items.filter((item) => item.id !== id));
+  };
+
   return (
     <div className="grid h-screen grid-rows-custom-parent">
       <Logo />
       <Form onAddItem={handleAddItem} />
-      <PackingList items={items} />
+      <PackingList items={items} onRemoveItem={handleRemoveItem} />
       <Statistics />
     </div>
   );

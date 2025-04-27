@@ -3,14 +3,20 @@ import { ItemType } from "../schema/ItemType.ts";
 
 type PackingListProps = {
   items: ItemType[];
+  onRemoveItem: (id: number) => void;
 };
 
-export const PackingList = ({ items }: PackingListProps) => {
+export const PackingList = ({ items, onRemoveItem }: PackingListProps) => {
   return (
     <main className="flex flex-col items-center justify-between gap-8 bg-black px-12 py-8">
       <div className="no-scrollbar grid h-[300px] grid-cols-4 content-start justify-center gap-x-9 gap-y-6 overflow-y-scroll">
         {items.map((item) => (
-          <Item item={item} />
+          <Item
+            id={item.id}
+            description={item.description}
+            quantity={item.quantity}
+            onRemoveItem={onRemoveItem}
+          />
         ))}
       </div>
       <div className="flex items-center justify-center gap-x-6">
