@@ -1,11 +1,5 @@
-import { MovieBox } from "./MovieBox";
-import { WatchedBox } from "./WatchedBox";
+import { ReactNode } from "react";
 
-export const Main = () => {
-  return (
-    <main className="main">
-      <MovieBox />
-      <WatchedBox />
-    </main>
-  );
+export const Main = ({ children }: { children: ReactNode }) => {
+  return <main className="main">{children}</main>;
 };

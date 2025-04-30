@@ -1,13 +1,11 @@
 import { Logo } from "./Logo";
-import { NumResult } from "./NumResult";
-import { Search } from "./Search";
+import { ReactNode } from "react";
 
-export const NavBar = () => {
+export const NavBar = ({ children }: { children: ReactNode }) => {
   return (
     <nav className="nav-bar">
       <Logo />
-      <Search />
-      <NumResult />
+      {children}
     </nav>
   );
 };

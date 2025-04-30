@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { MovieList } from "./MovieList";
+import { ReactNode, useState } from "react";
 
-export const MovieBox = () => {
+
+export const MovieBox = ({ children }: { children: ReactNode }) => {
   const [isOpen1, setIsOpen1] = useState<boolean>(true);
 
   return (
@@ -12,7 +12,7 @@ export const MovieBox = () => {
       >
         {isOpen1 ? "-" : "+"}
       </button>
-      {isOpen1 && <MovieList />}
+      {isOpen1 && children}
     </div>
   );
 };
