@@ -10,6 +10,7 @@ import { WatchedDto } from "./dto/WatchedDto";
 import { WatchedSummary } from "./components/Main/WatchedSummary";
 import { WatchedMovieList } from "./components/Main/WatchedMovieList";
 import { Loader } from "./components/Main/Loader";
+import { ErrorMessage } from "./components/Main/ErrorMessage";
 
 const tempMovieData: MovieDto[] = [
   {
@@ -64,17 +65,30 @@ export const App = () => {
   const [movies, setMovies] = useState<MovieDto[]>([]);
   const [watched, setWatched] = useState<WatchedDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const query = "godzilla";
+  const [error, setError] = useState<string>("");
+  const query = "yes";
 
   useEffect(() => {
     const fetchMovies = async () => {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+        );
+
+        if (!res.ok)
+          throw new Error("Something went wrong with fetching movie");
+
+        const data = await res.json();
+
+        if (data.Response === "False") throw new Error("Movie not found");
+
+        setMovies(data.Search);
+      } catch (err) {
+        setError((err as TypeError).message);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchMovies();
   }, []);
@@ -87,7 +101,11 @@ export const App = () => {
       </NavBar>
 
       <Main>
-        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
 
         <Box>
           <WatchedSummary watched={watched} />
