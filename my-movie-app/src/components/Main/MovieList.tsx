@@ -7,9 +7,9 @@ export const MovieList = ({ movies }: { movies: MovieDto[] }) => {
       {movies.map((movie) => (
         <Movie
           key={movie.imdbID}
-          title={movie.title}
-          poster={movie.poster}
-          year={movie.year}
+          Title={movie.Title}
+          Poster={movie.Poster}
+          Year={movie.Year}
         />
       ))}
     </ul>

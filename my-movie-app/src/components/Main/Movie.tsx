@@ -1,18 +1,18 @@
 type MovieProps = {
-  title: string;
-  poster: string;
-  year: string;
+  Title: string;
+  Poster: string;
+  Year: string;
 };
 
-export const Movie = ({ title, poster, year }: MovieProps) => {
+export const Movie = ({ Title, Poster, Year }: MovieProps) => {
   return (
     <li>
-      <img src={poster} alt={`${title} poster`} />
-      <h3>{title}</h3>
+      <img src={Poster} alt={`${Title} poster`} />
+      <h3>{Title}</h3>
       <div>
         <p>
           <span>🗓</span>
-          <span>{year}</span>
+          <span>{Year}</span>
         </p>
       </div>
     </li>

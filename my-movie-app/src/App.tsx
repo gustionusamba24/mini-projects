@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Main } from "./components/Main/Main";
 import { NavBar } from "./components/Nav/NavBar";
 import { MovieDto } from "./dto/MovieDto";
@@ -9,6 +9,7 @@ import { MovieList } from "./components/Main/MovieList";
 import { WatchedDto } from "./dto/WatchedDto";
 import { WatchedSummary } from "./components/Main/WatchedSummary";
 import { WatchedMovieList } from "./components/Main/WatchedMovieList";
+import { Loader } from "./components/Main/Loader";
 
 const tempMovieData: MovieDto[] = [
   {
@@ -57,9 +58,26 @@ const tempWatchedData: WatchedDto[] = [
   },
 ];
 
+const KEY = "c83dfaf0";
+
 export const App = () => {
-  const [movies, setMovies] = useState<MovieDto[]>(tempMovieData);
-  const [watched, setWatched] = useState<WatchedDto[]>(tempWatchedData);
+  const [movies, setMovies] = useState<MovieDto[]>([]);
+  const [watched, setWatched] = useState<WatchedDto[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const query = "godzilla";
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+      setIsLoading(false);
+    };
+    fetchMovies();
+  }, []);
 
   return (
     <>
@@ -69,9 +87,8 @@ export const App = () => {
       </NavBar>
 
       <Main>
-        <Box>
-          <MovieList movies={movies} />
-        </Box>
+        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
+
         <Box>
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
