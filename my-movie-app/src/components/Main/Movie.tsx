@@ -1,12 +1,20 @@
 type MovieProps = {
+  imdbID: string;
   Title: string;
   Poster: string;
   Year: string;
+  onSelectMovie: (id: string) => void;
 };
 
-export const Movie = ({ Title, Poster, Year }: MovieProps) => {
+export const Movie = ({
+  imdbID,
+  Title,
+  Poster,
+  Year,
+  onSelectMovie,
+}: MovieProps) => {
   return (
-    <li>
+    <li onClick={() => onSelectMovie(imdbID)}>
       <img src={Poster} alt={`${Title} poster`} />
       <h3>{Title}</h3>
       <div>

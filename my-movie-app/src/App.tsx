@@ -11,6 +11,7 @@ import { WatchedSummary } from "./components/Main/WatchedSummary";
 import { WatchedMovieList } from "./components/Main/WatchedMovieList";
 import { Loader } from "./components/Main/Loader";
 import { ErrorMessage } from "./components/Main/ErrorMessage";
+import { MovieDetails } from "./components/Main/MovieDetails";
 
 const tempMovieData: MovieDto[] = [
   {
@@ -62,12 +63,17 @@ const tempWatchedData: WatchedDto[] = [
 const KEY = "c83dfaf0";
 
 export const App = () => {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState<MovieDto[]>([]);
   const [watched, setWatched] = useState<WatchedDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const tempQuery = "avengers";
+  const [selectedId, setSeletectedId] = useState<string | null>(null);
+
+  const handleSelectMovie = (id: string) =>
+    setSeletectedId((selectedId) => (id === selectedId ? null : id));
+
+  const handleCloseMovie = () => setSeletectedId(null);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -112,13 +118,24 @@ export const App = () => {
       <Main>
         <Box>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
 
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
