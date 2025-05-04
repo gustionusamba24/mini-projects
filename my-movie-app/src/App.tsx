@@ -15,23 +15,23 @@ import { ErrorMessage } from "./components/Main/ErrorMessage";
 const tempMovieData: MovieDto[] = [
   {
     imdbID: "tt1375666",
-    title: "Inception",
-    year: "2010",
-    poster:
+    Title: "Inception",
+    Year: "2010",
+    Poster:
       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
   },
   {
     imdbID: "tt0133093",
-    title: "The Matrix",
-    year: "1999",
-    poster:
+    Title: "The Matrix",
+    Year: "1999",
+    Poster:
       "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
   },
   {
     imdbID: "tt6751668",
-    title: "Parasite",
-    year: "2019",
-    poster:
+    Title: "Parasite",
+    Year: "2019",
+    Poster:
       "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
   },
 ];
@@ -62,16 +62,18 @@ const tempWatchedData: WatchedDto[] = [
 const KEY = "c83dfaf0";
 
 export const App = () => {
+  const [query, setQuery] = useState<string>("");
   const [movies, setMovies] = useState<MovieDto[]>([]);
   const [watched, setWatched] = useState<WatchedDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const query = "yes";
+  const tempQuery = "avengers";
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
+        setError("");
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
         );
@@ -90,13 +92,20 @@ export const App = () => {
         setIsLoading(false);
       }
     };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResult movies={movies} />
       </NavBar>
 
