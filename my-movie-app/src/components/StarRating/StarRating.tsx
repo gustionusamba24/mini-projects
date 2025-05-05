@@ -12,10 +12,10 @@ const starContainerStyle = {
 };
 
 type StarRatingProps = {
-  maxRating: number;
-  color: string;
-  size: number;
-  onSetRating: (rating: number) => void;
+  maxRating?: number;
+  color?: string;
+  size?: number;
+  onSetRating?: (rating: number) => void;
 };
 
 export const StarRating = ({
@@ -29,7 +29,9 @@ export const StarRating = ({
 
   const handleRating = (rating: number) => {
     setRating(rating);
-    onSetRating(rating);
+    if (onSetRating) {
+      onSetRating(rating);
+    }
   };
 
   const handleTempRating = (rating: number) => {

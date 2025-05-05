@@ -288,7 +288,8 @@ body {
   margin-bottom: 0.8rem;
   font-weight: 600;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 2.4rem;
 }
 
@@ -360,5 +361,3 @@ body {
     FONT SIZE SYSTEM (px)
     10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 /52 / 62 / 74 / 86 / 98
     */
-
-
