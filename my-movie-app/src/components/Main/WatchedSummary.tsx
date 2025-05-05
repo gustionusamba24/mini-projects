@@ -5,12 +5,12 @@ type WatchedSummaryProps = {
 };
 
 const average = (arr: number[]) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+  Number(arr.reduce((acc, cur) => acc + cur / arr.length, 0).toFixed(2));
 
 export const WatchedSummary = ({ watched }: WatchedSummaryProps) => {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgTime = average(watched.map((movie) => movie.runtime));
+  const avgTime = average(watched.map((movie) => movie.Runtime));
 
   return (
     <div className="summary">
@@ -18,7 +18,7 @@ export const WatchedSummary = ({ watched }: WatchedSummaryProps) => {
       <div>
         <p>
           <span>️#️⃣</span>
-          <span>{watched.length}</span>
+          <span>{watched.length} movies</span>
         </p>
         <p>
           <span>⭐️</span>

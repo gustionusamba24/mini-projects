@@ -1,9 +1,9 @@
 export type WatchedDto = {
   imdbID: string;
-  title: string;
-  year: string;
-  poster: string;
-  runtime: number;
+  Title: string;
+  Year: string;
+  Poster: string;
+  Runtime: number;
   imdbRating: number;
   userRating: number;
 };

@@ -3,18 +3,25 @@ import { WatchedMovie } from "./WatchedMovie";
 
 type WatchedListProps = {
   watched: WatchedDto[];
+  onDeleteWatched: (id: string) => void;
 };
 
-export const WatchedMovieList = ({ watched }: WatchedListProps) => {
+export const WatchedMovieList = ({
+  watched,
+  onDeleteWatched,
+}: WatchedListProps) => {
   return (
     <ul className="list">
       {watched.map((movie) => (
         <WatchedMovie
           key={movie.imdbID}
-          title={movie.title}
-          poster={movie.poster}
+          imdbID={movie.imdbID}
+          title={movie.Title}
+          poster={movie.Poster}
           userRating={movie.userRating}
-          runtime={movie.runtime}
+          imdbRating={movie.imdbRating}
+          runtime={movie.Runtime}
+          onDeleteWatched={onDeleteWatched}
         />
       ))}
     </ul>

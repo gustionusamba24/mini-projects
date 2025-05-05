@@ -2,21 +2,44 @@ import { useEffect, useState } from "react";
 import { MovieDetailsDto } from "../../dto/MovieDetailsDto";
 import { StarRating } from "../StarRating/StarRating";
 import { Loader } from "./Loader";
+import { WatchedDto } from "../../dto/WatchedDto";
+import { ErrorMessage } from "./ErrorMessage";
 
 type MovieDetailsProps = {
+  watched: WatchedDto[];
   selectedId: string;
   onCloseMovie: () => void;
+  onAddWatched: (movie: WatchedDto) => void;
 };
 
 const KEY = "c83dfaf0";
 
 export const MovieDetails = ({
+  watched,
   selectedId,
   onCloseMovie,
+  onAddWatched,
 }: MovieDetailsProps) => {
-  const [movie, setMovie] = useState<MovieDetailsDto>({});
+  const [movie, setMovie] = useState<MovieDetailsDto>({
+    Title: "",
+    Year: "",
+    Poster: "",
+    Runtime: "",
+    imdbRating: "",
+    Plot: "",
+    Released: "",
+    Actors: "",
+    Director: "",
+    Genre: "",
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [userRating, setUserRating] = useState<number>(0);
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find(
+    (movie) => movie.imdbID === selectedId,
+  )?.userRating;
 
   const {
     Title: title,
@@ -30,6 +53,21 @@ export const MovieDetails = ({
     Director: director,
     Genre: genre,
   } = movie;
+
+  const handleAdd = () => {
+    const newWatchedMovie: WatchedDto = {
+      imdbID: selectedId,
+      Title: title,
+      Year: year,
+      Poster: poster,
+      Runtime: Number(runtime.split(" ")[0]),
+      imdbRating: Number(imdbRating),
+      userRating,
+    };
+
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -52,9 +90,8 @@ export const MovieDetails = ({
 
   return (
     <div className="details">
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {isLoading && <Loader />}
+      {!isLoading && !error && (
         <>
           <header>
             <button className="btn-back" onClick={onCloseMovie}>
@@ -76,8 +113,23 @@ export const MovieDetails = ({
 
           <section>
             <div className="rating">
-              <StarRating maxRating={10} size={24} />
+              {!isWatched ? (
+                <StarRating
+                  maxRating={10}
+                  size={24}
+                  onSetRating={setUserRating}
+                />
+              ) : (
+                <p>
+                  You rated this movie {watchedUserRating} <span>🌟</span>
+                </p>
+              )}
             </div>
+            {userRating > 0 && (
+              <button className="btn-add" onClick={handleAdd}>
+                Add to watch
+              </button>
+            )}
             <p>
               <em>{plot}</em>
             </p>
@@ -86,6 +138,7 @@ export const MovieDetails = ({
           </section>
         </>
       )}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 };

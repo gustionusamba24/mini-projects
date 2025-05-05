@@ -13,9 +13,9 @@ export const MovieList = ({ movies, onSelectMovie }: MovieListProps) => {
         <Movie
           key={movie.imdbID}
           imdbID={movie.imdbID}
-          Title={movie.Title}
-          Poster={movie.Poster}
-          Year={movie.Year}
+          title={movie.Title}
+          poster={movie.Poster}
+          year={movie.Year}
           onSelectMovie={onSelectMovie}
         />
       ))}
