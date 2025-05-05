@@ -70,6 +70,7 @@ export const App = () => {
       return;
     }
 
+    handleCloseMovie();
     fetchMovies();
 
     return () => {
