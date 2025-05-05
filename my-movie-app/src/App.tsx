@@ -35,12 +35,15 @@ export const App = () => {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
         setError("");
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          { signal: controller.signal },
         );
 
         if (!res.ok)
@@ -51,8 +54,11 @@ export const App = () => {
         if (data.Response === "False") throw new Error("Movie not found");
 
         setMovies(data.Search);
+        setError("");
       } catch (err) {
-        setError((err as TypeError).message);
+        if ((err as TypeError).name !== "AbortError") {
+          setError((err as TypeError).message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -65,6 +71,10 @@ export const App = () => {
     }
 
     fetchMovies();
+
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   return (
