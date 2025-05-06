@@ -188,7 +188,7 @@ function startLogoutTimer() {
     time--;
   };
   // Set the time
-  let time = 3600;
+  let time = 900;
 
   // Call the timer every second
   tick(); // Immediately call the function
