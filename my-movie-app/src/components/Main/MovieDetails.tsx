@@ -12,7 +12,7 @@ type MovieDetailsProps = {
   onAddWatched: (movie: WatchedDto) => void;
 };
 
-const KEY = "c83dfaf0";
+const apiKey = import.meta.env.VITE_API_KEY;
 
 export const MovieDetails = ({
   watched,
@@ -74,7 +74,7 @@ export const MovieDetails = ({
       try {
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`,
+          `http://www.omdbapi.com/?apikey=${apiKey}&i=${selectedId}`,
         );
         const data = await res.json();
         setMovie(data);
