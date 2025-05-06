@@ -1,8 +1,8 @@
 export const Logo = () => {
   return (
     <div className="logo">
-      <span role="img">🍿</span>
-      <h1>Use Popcorn</h1>
+      <span role="img"><img src="./wamee.svg" alt="Logo of the app" /></span>
+      <h1>WAMEE</h1>
     </div>
   );
 };
