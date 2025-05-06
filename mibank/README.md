@@ -15,6 +15,20 @@ Mibank is an abbreviation of minimalist bank built with HTML, CSS, and TypeScrip
 ### Technical Notes
 - All user and transaction data are stored in arrays (no backend implementation yet).
 - The project focuses on front-end logic.
+- Use this data below for login purposes by inserting username and pin.
+```typescript
+const account1 = {
+    owner: "Alucard Budi Alamsyah",
+    pin: 1234,
+    username: "aba",
+};
+
+const account2 = {
+    owner: "Lunox Sanjaya Cantika",
+    pin: 5678,
+    username: "lsc",
+};
+```
 ## Flowchart
 ![Flowchart of Mibank](./misc/minimalist_bank_flowchart.svg)
 ## Snapshot
