@@ -20,6 +20,9 @@ export const MovieDetails = ({
   onCloseMovie,
   onAddWatched,
 }: MovieDetailsProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [userRating, setUserRating] = useState<number>(0);
   const [movie, setMovie] = useState<MovieDetailsDto>({
     Title: "",
     Year: "",
@@ -32,9 +35,6 @@ export const MovieDetails = ({
     Director: "",
     Genre: "",
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [userRating, setUserRating] = useState<number>(0);
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
   const watchedUserRating = watched.find(

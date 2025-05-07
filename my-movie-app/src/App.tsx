@@ -17,22 +17,32 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 export const App = () => {
   const [movies, setMovies] = useState<MovieDto[]>([]);
-  const [watched, setWatched] = useState<WatchedDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [query, setQuery] = useState<string>("");
   const [selectedId, setSeletectedId] = useState<string | null>(null);
+  const [watched, setWatched] = useState<WatchedDto[]>(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
 
   const handleSelectMovie = (id: string) =>
     setSeletectedId((selectedId) => (id === selectedId ? null : id));
 
   const handleCloseMovie = () => setSeletectedId(null);
 
-  const handleAddWatched = (movie: WatchedDto) =>
+  const handleAddWatched = (movie: WatchedDto) => {
     setWatched((watched) => [...watched, movie]);
+
+    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
 
   const handleDeleteWatched = (id: string) =>
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     const controller = new AbortController();
