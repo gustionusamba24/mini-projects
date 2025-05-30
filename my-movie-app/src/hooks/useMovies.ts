@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { MovieDto } from "../dto/MovieDto";
 
-// const apiKey = import.meta.env.VITE_API_KEY;
-const apiKey = "c83dfaf0";
+const apiKey = import.meta.env.VITE_API_KEY;
 
 export const useMovies = (query: string, callback: () => void) => {
   const [movies, setMovies] = useState<MovieDto[]>([]);
