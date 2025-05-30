@@ -12,7 +12,8 @@ type MovieDetailsProps = {
   onAddWatched: (movie: WatchedDto) => void;
 };
 
-const apiKey = import.meta.env.VITE_API_KEY;
+// const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = "c83dfaf0";
 
 export const MovieDetails = ({
   watched,
