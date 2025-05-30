@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Main } from "./components/Main/Main";
 import { NavBar } from "./components/Nav/NavBar";
 import { Search } from "./components/Nav/Search";
@@ -37,13 +37,15 @@ export const App = () => {
   }
 
   function handleAddWatched(movie: WatchedDto) {
-    setWatched((watched) => [...watched, movie]);
+    setWatched((watched: any) => [...watched, movie]);
 
     // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
 
   function handleDeleteWatched(id: string) {
-    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+    setWatched((watched: any) =>
+      watched.filter((movie: any) => movie.imdbID !== id),
+    );
   }
 
   return (

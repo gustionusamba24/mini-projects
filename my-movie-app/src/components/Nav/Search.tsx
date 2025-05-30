@@ -9,7 +9,7 @@ export const Search = ({ query, setQuery }: SearchProps) => {
   const inputEl = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const callback = (e) => {
+    const callback = (e: any) => {
       if (document.activeElement === inputEl.current) return;
 
       if (e.code === "Enter") {
